@@ -27,7 +27,7 @@ export function useBreakpointQuery(breakpoint: Breakpoint, comparison: Breakpoin
 
     if (comparison === "max") {
         return useMediaQuery({ maxWidth: breakpointMap.get(breakpoint)! - 1 });
-    } else if (breakpointIndex === breakpoints.length - 1) {
+    } else if (comparison === "min" || breakpointIndex === breakpoints.length - 1) {
         return useMediaQuery({ minWidth: breakpointMap.get(breakpoint) });
     } else {
         return useMediaQuery({
@@ -47,18 +47,14 @@ export function BSMediaQuery({ children, breakpoint, comparison = "same" }: BSMe
 
     if (comparison === "max") {
         return <MediaQuery maxWidth={breakpointMap.get(breakpoint)! - 1}>{children}</MediaQuery>;
-    } else if (breakpointIndex === breakpoints.length - 1) {
+    } else if (comparison === "min" || breakpointIndex === breakpoints.length - 1) {
         return <MediaQuery minWidth={breakpointMap.get(breakpoint)}>{children}</MediaQuery>;
     } else {
-        if (comparison === "same") {
-            return (
-                <MediaQuery minWidth={breakpointMap.get(breakpoint)} maxWidth={breakpointMap.get(breakpoints[breakpointIndex + 1])! - 1}>
-                    {children}
-                </MediaQuery>
-            );
-        } else {
-            return <MediaQuery minWidth={breakpointMap.get(breakpoint)}>{children}</MediaQuery>;
-        }
+        return (
+            <MediaQuery minWidth={breakpointMap.get(breakpoint)} maxWidth={breakpointMap.get(breakpoints[breakpointIndex + 1])! - 1}>
+                {children}
+            </MediaQuery>
+        );
     }
 }
 
