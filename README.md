@@ -46,7 +46,7 @@ Returns a boolean indicating whether the current breakpoint compares to the brea
 `boolean` - Whether the current breakpoint compares to the breakpoint passed in in the way specified.
 
 ### useCurrentBreakpoint
-Returns the current breakpoint, or `null` if the breakpoint is not found.
+Returns the current breakpoint, or `xs` if the breakpoint is not found (the only time this should happen is if the width is somehow less than 0, which should be impossible).
 
 #### Parameters
 None
@@ -55,7 +55,7 @@ None
 `Breakpoint | null` - The current breakpoint, or `null` if the breakpoint is not found.
 
 ### useCurrentBreakpointIndex
-Returns the index of the current breakpoint in the `breakpoints` array and Map or `null` if the breakpoint is not found.
+Returns the index of the current breakpoint in the `breakpoints` array and Map or `null` if the breakpoint is not found (the only time this should happen is if the width is somehow less than 0, which should be impossible).
 
 #### Parameters
 None

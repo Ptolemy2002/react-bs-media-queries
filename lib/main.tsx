@@ -60,7 +60,7 @@ export function BSMediaQuery({ children, breakpoint, comparison = "same" }: BSMe
     }
 }
 
-export function useCurrentBreakpoint(): Breakpoint | null {
+export function useCurrentBreakpoint(): Breakpoint {
     const xs = useBreakpointQuery("xs");
     const sm = useBreakpointQuery("sm");
     const md = useBreakpointQuery("md");
@@ -76,11 +76,11 @@ export function useCurrentBreakpoint(): Breakpoint | null {
         case sm: return "sm";
         case xs: return "xs";
     }
-    return null;
+    
+    return "xs";
 }
 
-export function useCurrentBreakpointIndex(): number | null {
-    const currentQuery = useCurrentBreakpoint();
-    if (currentQuery === null) return null;
-    return breakpointToIndex(currentQuery);
+export function useCurrentBreakpointIndex(): number {
+    const currentBreakpoint = useCurrentBreakpoint();
+    return breakpointToIndex(currentBreakpoint);
 }
