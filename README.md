@@ -55,13 +55,25 @@ None
 `Breakpoint | null` - The current breakpoint, or `null` if the breakpoint is not found.
 
 ### useCurrentBreakpointIndex
-Returns the index of the current breakpoint in the `breakpoints` array and Map or `null` if the breakpoint is not found (the only time this should happen is if the width is somehow less than 0, which should be impossible).
+Returns the index of the current breakpoint in the `breakpoints` array and Map or `0` if the breakpoint is not found (the only time this should happen is if the width is somehow less than 0, which should be impossible).
 
 #### Parameters
 None
 
 #### Returns
-`number | null` - The index of the current breakpoint in the `breakpoints` array and Map or `null` if the breakpoint is not found.
+`number | null` - The index of the current breakpoint in the `breakpoints` array and Map or `0` if the breakpoint is not found.
+
+## Components
+### BSMediaQuery
+A component that renders its children only if the current breakpoint compares to the breakpoint passed in in the way specified.
+
+#### Parameters
+- `children` - (`React.ReactNode`) - The children to render if the current breakpoint compares to the breakpoint passed in in the way specified.
+- `breakpoint` - (`Breakpoint`) - The breakpoint to compare to.
+- `comparison` - (`BreakpointComparison`) - The comparison to make. Defaults to `"same"`.
+
+### Returns
+`React.ReactNode` - The children if the current breakpoint compares to the breakpoint passed in in the way specified.
 
 ## Peer Dependencies
 - `react^18.3.1`
