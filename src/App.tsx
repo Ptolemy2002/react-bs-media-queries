@@ -1,4 +1,5 @@
-import { BSMediaQuery, Breakpoint, breakpoints, useCurrentBreakpoint, useCurrentBreakpointIndex } from "@ptolemy2002/react-bs-media-queries";
+import { BSMediaQuery, useCurrentBreakpoint, useCurrentBreakpointIndex } from "@ptolemy2002/react-bs-media-queries";
+import { Breakpoint, breakpoints } from "@ptolemy2002/bs-utils";
 
 function App() {
   const currentBreakpoint = useCurrentBreakpoint();

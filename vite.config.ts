@@ -24,7 +24,7 @@ export default defineConfig({
     copyPublicDir: false,
 
     rollupOptions: {
-      external: ['react', 'react-dom', 'react-responsive'],
+      external: ['react', 'react-dom', 'react-responsive', '@ptolemy2002/bs-utils'],
       output: {
         entryFileNames: '[name].js'
       }

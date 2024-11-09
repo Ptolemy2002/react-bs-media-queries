@@ -1,62 +1,32 @@
 import MediaQuery, { useMediaQuery } from "react-responsive";
+import { Breakpoint, BreakpointComparison, breakpointComparisonRange, breakpointToIndex } from "@ptolemy2002/bs-utils";
 
-export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-export type BreakpointComparison = "same" | "min" | "max";
+export function useBreakpointQuery(breakpoint: Breakpoint | number, comparison: BreakpointComparison = "same"): boolean {
+    const [minPixels, maxPixels] = breakpointComparisonRange(breakpoint, comparison);
 
-// Remove set method from breakpointMap so we can make sure it's not modified
-export const breakpointMap: Readonly<Omit<Map<Breakpoint, number>, "set">> = Object.freeze(
-    new Map<Breakpoint, number>([
-        ["xs", 0],
-        ["sm", 576],
-        ["md", 768],
-        ["lg", 992],
-        ["xl", 1200],
-        ["xxl", 1400]
-    ])
-);
-export const breakpoints: ReadonlyArray<Breakpoint> = Object.freeze(
-    Array.from(breakpointMap.keys())
-);
-
-export function breakpointToIndex(breakpoint: Breakpoint): number {
-    return breakpoints.indexOf(breakpoint);
-}
-
-export function useBreakpointQuery(breakpoint: Breakpoint, comparison: BreakpointComparison = "same"): boolean {
-    const breakpointIndex = breakpointToIndex(breakpoint);
-
-    if (comparison === "max") {
-        if (breakpointIndex === breakpoints.length - 1) return true;
-        return useMediaQuery({ maxWidth: breakpointMap.get(breakpoints[breakpointIndex + 1])! - 1 });
-    } else if (comparison === "min" || breakpointIndex === breakpoints.length - 1) {
-        return useMediaQuery({ minWidth: breakpointMap.get(breakpoint) });
+    if (maxPixels === null) {
+        return useMediaQuery({ minWidth: minPixels });
+    } else if (minPixels === 0) {
+        return useMediaQuery({ maxWidth: maxPixels });
     } else {
-        return useMediaQuery({
-            minWidth: breakpointMap.get(breakpoint),
-            maxWidth: breakpointMap.get(breakpoints[breakpointIndex + 1])! - 1
-        });
+        return useMediaQuery({ minWidth: minPixels, maxWidth: maxPixels });
     }
 }
 
 export type BSMediaQueryProps = {
     children: React.ReactNode;
-    breakpoint: Breakpoint;
+    breakpoint: Breakpoint | number;
     comparison?: BreakpointComparison;
 };
 export function BSMediaQuery({ children, breakpoint, comparison = "same" }: BSMediaQueryProps) {
-    const breakpointIndex = breakpointToIndex(breakpoint);
+    const [minPixels, maxPixels] = breakpointComparisonRange(breakpoint, comparison);
 
-    if (comparison === "max") {
-        if (breakpointIndex === breakpoints.length - 1) return children;
-        return <MediaQuery maxWidth={breakpointMap.get(breakpoints[breakpointIndex + 1])! - 1}>{children}</MediaQuery>;
-    } else if (comparison === "min" || breakpointIndex === breakpoints.length - 1) {
-        return <MediaQuery minWidth={breakpointMap.get(breakpoint)}>{children}</MediaQuery>;
+    if (maxPixels === null) {
+        return <MediaQuery minWidth={minPixels}>{children}</MediaQuery>;
+    } else if (minPixels === 0) {
+        return <MediaQuery maxWidth={maxPixels}>{children}</MediaQuery>;
     } else {
-        return (
-            <MediaQuery minWidth={breakpointMap.get(breakpoint)} maxWidth={breakpointMap.get(breakpoints[breakpointIndex + 1])! - 1}>
-                {children}
-            </MediaQuery>
-        );
+        return <MediaQuery minWidth={minPixels} maxWidth={maxPixels}>{children}</MediaQuery>;
     }
 }
 

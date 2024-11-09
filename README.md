@@ -79,6 +79,7 @@ A component that renders its children only if the current breakpoint compares to
 - `react^18.3.1`
 - `react-dom^18.3.1`
 - `react-responsive^10.0.0`
+- `@ptolemy2002/bs-utils^1.0.0`
 
 ## Commands
 The following commands exist in the project:
